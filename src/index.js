@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const CryptoJS = require('crypto-js');
 const {
   getAllTalkers,
   getTalkersById,
@@ -28,4 +29,10 @@ app.get('/talker/:id', async (req, res) => {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }
   return res.status(200).json(talkerWanted);
+});
+
+app.post('/login', async (req, res) => {  
+  const { email, password } = req.body;
+  console.log(CryptoJS.enc.Utf8.parse("password").toString());
+  console.log(CryptoJS.enc.Utf8.parse("atrs").toString());
 });
