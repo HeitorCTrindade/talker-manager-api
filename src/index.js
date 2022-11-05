@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const CryptoJS = require('crypto-js');
+const tokenGen = require('crypto');
 const {
   getAllTalkers,
   getTalkersById,
@@ -32,7 +32,6 @@ app.get('/talker/:id', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {  
-  const { email, password } = req.body;
-  console.log(CryptoJS.enc.Utf8.parse("password").toString());
-  console.log(CryptoJS.enc.Utf8.parse("atrs").toString());
+  const token = tokenGen.randomBytes(8).toString('hex');
+  return res.status(200).json({ token });
 });
