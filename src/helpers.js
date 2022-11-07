@@ -56,9 +56,22 @@ const updateTalkersById = async (id, newTalker) => {
   }
 };
 
+const deleteTalkersById = async (idToRemove) => {
+  try {
+    const talkers = await fs.readFile(talkerPath, 'utf-8');
+    const talkersArray = JSON.parse(talkers);
+    const newArrayTalkers = talkersArray.filter((talker) => talker.id !== +idToRemove);
+    console.log(newArrayTalkers);
+    await fs.writeFile(talkerPath, JSON.stringify(newArrayTalkers, null, 2));   
+  } catch (err) {
+    console.error(`Erro ao ler o arquivo: ${err.message}`);
+  }
+};
+
 module.exports = {
   getAllTalkers,
   getTalkersById,
   postTalkers,
   updateTalkersById,
+  deleteTalkersById,
 };

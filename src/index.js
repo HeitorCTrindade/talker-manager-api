@@ -6,10 +6,11 @@ const {
   getTalkersById,
   postTalkers,
   updateTalkersById,
+  deleteTalkersById,
 } = require('./helpers');
 
 const validateLogin = require('./middlewares/validateLogin');
-const validateTalkerPost = require('./middlewares/validateTalkerPost');
+const { validateTalkerPostAndPut, validateTalkerDelete } = require('./middlewares/validateTalker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -36,14 +37,19 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(200).json(talkerWanted);
 });
 
-app.post('/talker/', validateTalkerPost, async (req, res) => {  
+app.post('/talker/', validateTalkerPostAndPut, async (req, res) => {  
   const talkeradd = await postTalkers(req.body);    
   return res.status(201).json(talkeradd);
 });
 
-app.put('/talker/:id', validateTalkerPost, async (req, res) => {  
+app.put('/talker/:id', validateTalkerPostAndPut, async (req, res) => {  
   const talkerUpdated = await updateTalkersById(+req.params.id, req.body);
   return res.status(200).json(talkerUpdated);
+});
+
+app.delete('/talker/:id', validateTalkerDelete, async (req, res) => {  
+  await deleteTalkersById(+req.params.id);  
+  return res.status(204).send();
 });
 
 app.post('/login', validateLogin, (req, res) => {  

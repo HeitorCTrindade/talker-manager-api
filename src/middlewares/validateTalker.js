@@ -69,7 +69,7 @@ const validateTalk = (talk, res) => {
   return CKECK_OK;
 };
 
-const validateTalkerPost = (req, res, next) => {
+const validateTalkerPostAndPut = (req, res, next) => {
   const { name, age, talk } = req.body;
   const token = req.header('Authorization');
   
@@ -88,4 +88,16 @@ const validateTalkerPost = (req, res, next) => {
   next(); 
 };
 
-module.exports = validateTalkerPost;
+const validateTalkerDelete = (req, res, next) => {
+  const token = req.header('Authorization');
+  
+  const vt = validateToken(token, res);
+  if (vt !== CKECK_OK) return vt; 
+
+  next(); 
+};
+
+module.exports = { 
+  validateTalkerPostAndPut,
+  validateTalkerDelete,
+};
