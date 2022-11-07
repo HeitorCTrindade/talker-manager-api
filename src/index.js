@@ -6,6 +6,8 @@ const {
   getTalkersById,
 } = require('./helpers');
 
+const validateLogin = require('./middlewares/validateLogin');
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -31,7 +33,7 @@ app.get('/talker/:id', async (req, res) => {
   return res.status(200).json(talkerWanted);
 });
 
-app.post('/login', async (req, res) => {  
+app.post('/login', validateLogin, (req, res) => {  
   const token = tokenGen.randomBytes(8).toString('hex');
   return res.status(200).json({ token });
 });
