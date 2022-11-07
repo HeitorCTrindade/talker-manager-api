@@ -29,7 +29,7 @@ app.get('/talker/:id', async (req, res) => {
   const talkerWanted = await getTalkersById(+req.params.id);
   if (!talkerWanted) {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
-  }
+  }  
   return res.status(200).json(talkerWanted);
 });
 
