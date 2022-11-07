@@ -24,7 +24,22 @@ const getTalkersById = async (id) => {
   }
 };
 
+const postTalkers = async (talkerObj) => {
+  try {
+    const talkers = await fs.readFile(talkerPath, 'utf-8');
+    const talkersArray = JSON.parse(talkers);    
+    const lastId = talkersArray[talkersArray.length - 1].id;
+    const talkerToSave = { id: +lastId + 1, ...talkerObj };   
+    talkersArray.push(talkerToSave);
+    await fs.writeFile(talkerPath, JSON.stringify(talkersArray, null, 2));
+    return talkerToSave;
+  } catch (err) {
+    console.error(`Erro ao ler o arquivo: ${err.message}`);
+  }  
+};
+
 module.exports = {
   getAllTalkers,
   getTalkersById,
+  postTalkers,
 };

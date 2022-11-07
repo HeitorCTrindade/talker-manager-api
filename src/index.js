@@ -4,9 +4,11 @@ const tokenGen = require('crypto');
 const {
   getAllTalkers,
   getTalkersById,
+  postTalkers,
 } = require('./helpers');
 
 const validateLogin = require('./middlewares/validateLogin');
+const validateTalkerPost = require('./middlewares/validateTalkerPost');
 
 const app = express();
 app.use(bodyParser.json());
@@ -31,6 +33,11 @@ app.get('/talker/:id', async (req, res) => {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   }  
   return res.status(200).json(talkerWanted);
+});
+
+app.post('/talker/', validateTalkerPost, async (req, res) => {  
+  const talkeradd = await postTalkers(req.body);    
+  return res.status(201).json(talkeradd);
 });
 
 app.post('/login', validateLogin, (req, res) => {  
