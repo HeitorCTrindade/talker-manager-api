@@ -5,6 +5,7 @@ const {
   getAllTalkers,
   getTalkersById,
   postTalkers,
+  updateTalkersById,
 } = require('./helpers');
 
 const validateLogin = require('./middlewares/validateLogin');
@@ -38,6 +39,11 @@ app.get('/talker/:id', async (req, res) => {
 app.post('/talker/', validateTalkerPost, async (req, res) => {  
   const talkeradd = await postTalkers(req.body);    
   return res.status(201).json(talkeradd);
+});
+
+app.put('/talker/:id', validateTalkerPost, async (req, res) => {  
+  const talkerUpdated = await updateTalkersById(+req.params.id, req.body);
+  return res.status(200).json(talkerUpdated);
 });
 
 app.post('/login', validateLogin, (req, res) => {  

@@ -43,7 +43,7 @@ const validateDataFormat = (data) => {
 };
 
 const validateTalkRate = (rate, res) => {
-    if (!rate) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
+  if (rate === undefined) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
 
   if (rate < 1 || +rate > 5 || !Number.isInteger(rate)) {
     return res.status(400).json({ message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
@@ -63,7 +63,7 @@ const validateTalk = (talk, res) => {
     return res.status(400).json({ message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"' });
   } 
 
-  const va = validateTalkRate(talk.rate, res);
+  const va = validateTalkRate(talk.rate, res); 
     if (va !== false) return va;   
 
   return CKECK_OK;

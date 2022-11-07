@@ -38,8 +38,27 @@ const postTalkers = async (talkerObj) => {
   }  
 };
 
+const updateTalkersById = async (id, newTalker) => {
+  const { name, age, talk } = newTalker;  
+  try {
+    const talkers = await fs.readFile(talkerPath, 'utf-8');
+    const talkersArray = JSON.parse(talkers);
+    const newArrayTalkers = talkersArray.map((talker) => {
+      if (talker.id === +id) {
+        return { id: talker.id, name, age, talk };
+      }
+      return talker;
+    });
+    await fs.writeFile(talkerPath, JSON.stringify(newArrayTalkers, null, 2));
+    return getTalkersById(id);
+  } catch (err) {
+    console.error(`Erro ao ler o arquivo: ${err.message}`);
+  }
+};
+
 module.exports = {
   getAllTalkers,
   getTalkersById,
   postTalkers,
+  updateTalkersById,
 };
