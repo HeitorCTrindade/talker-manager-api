@@ -100,4 +100,5 @@ const validateTalkerDelete = (req, res, next) => {
 module.exports = { 
   validateTalkerPostAndPut,
   validateTalkerDelete,
+  validateToken,
 };

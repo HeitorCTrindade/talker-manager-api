@@ -24,6 +24,17 @@ const getTalkersById = async (id) => {
   }
 };
 
+const getTalkersByTerm = async (term) => {
+  try {
+    const talkers = await fs.readFile(talkerPath, 'utf-8');
+    const talkersArray = JSON.parse(talkers);
+    const talkerWanted = talkersArray.filter((talker) => talker.name.indexOf(term) > -1);
+    return talkerWanted;
+  } catch (err) {
+    console.error(`Erro ao ler o arquivo: ${err.message}`);
+  }
+};
+
 const postTalkers = async (talkerObj) => {
   try {
     const talkers = await fs.readFile(talkerPath, 'utf-8');
@@ -74,4 +85,5 @@ module.exports = {
   postTalkers,
   updateTalkersById,
   deleteTalkersById,
+  getTalkersByTerm,
 };

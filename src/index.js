@@ -7,16 +7,21 @@ const {
   postTalkers,
   updateTalkersById,
   deleteTalkersById,
+  getTalkersByTerm,
 } = require('./helpers');
 
 const validateLogin = require('./middlewares/validateLogin');
-const { validateTalkerPostAndPut, validateTalkerDelete } = require('./middlewares/validateTalker');
+const { 
+  validateTalkerPostAndPut,
+  validateTalkerDelete,
+  validateToken,
+} = require('./middlewares/validateTalker');
 
 const app = express();
 app.use(bodyParser.json());
 
 const HTTP_OK_STATUS = 200;
-const PORT = '3000';
+const PORT = '3022';
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
@@ -25,6 +30,14 @@ app.get('/', (_request, response) => {
 
 app.listen(PORT, () => {
   console.log('Online');
+});
+
+app.get('/talker/search', validateTalkerDelete, async (req, res) => {
+  const talkerWanted = await getTalkersByTerm(req.query.q);
+  if (!talkerWanted) {
+    return res.status(400).json({ message: talkerWanted });
+  }  
+  return res.status(200).json(talkerWanted);
 });
 
 app.get('/talker', async (_req, res) => res.status(200).json(await getAllTalkers()));
