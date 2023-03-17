@@ -14,7 +14,6 @@ const validateLogin = require('./middlewares/validateLogin');
 const { 
   validateTalkerPostAndPut,
   validateTalkerDelete,
-  validateToken,
 } = require('./middlewares/validateTalker');
 
 const app = express();
